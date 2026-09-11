@@ -19,10 +19,13 @@ RUN python3 -m venv .venv && \
 # copy the project folder to the WORKDIR (/djangoappdemo)
 COPY . .
 
-# open port 8000 on the container
+# this image's application is expected to listen on port 8080 inside the container
+# but this doesn't bind the port.
 EXPOSE 8000
 
-# using this as entry point run the list of CMD below
+# using this as entry point run the list of CMD below. ENTRYPOINT is the main exectuable and should not changed by others.
+# ENTRYPOINT will have non overridable values
 ENTRYPOINT ["/djangoappdemo/.venv/bin/python3"]
 
+#CMD will have overridable values. Others can change these as they need.
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
