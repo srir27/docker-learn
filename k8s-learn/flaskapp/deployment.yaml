@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: flaskapp
+  name: deploy-flaskapp
+  namespace: flaskapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flaskapp
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: flaskapp
+    spec:
+      containers:
+      - image: srir27/flaskapp:latest
+        name: flaskapp
+        resources: {}
+status: {}

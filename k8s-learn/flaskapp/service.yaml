@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: flaskapp
+  name: deploy-flaskapp
+  namespace: flaskapp
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: flaskapp
+  type: NodePort
+status:
+  loadBalancer: {}
