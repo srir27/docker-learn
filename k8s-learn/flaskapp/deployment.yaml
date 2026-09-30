@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,8 +17,15 @@ spec:
       labels:
         app: flaskapp
     spec:
+      imagePullSecrets:
+      - name: dockersecret
       containers:
-      - image: srir27/flaskapp:latest
-        name: flaskapp
-        resources: {}
+        # - image: srir27/flaskapp:v2
+        - image: srir27/sriprvt # Private docker repo
+          name: flaskapp
+          resources: {}
+          envFrom: 
+          - configMapRef:
+              name: flaskapp-cm
+            
 status: {}

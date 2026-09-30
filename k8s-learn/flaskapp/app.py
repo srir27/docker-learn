@@ -1,11 +1,15 @@
 from flask import Flask
+import os
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def home():
-    return "Hello from Flask!"
+    return {
+       "message": "Hello from Flask!",
+       "environment": os.getenv("APP_ENV", "not-set")
+    }
 
 
 @app.route("/health")
