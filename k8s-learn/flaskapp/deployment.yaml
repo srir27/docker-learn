@@ -6,26 +6,42 @@ metadata:
     app: flaskapp
   name: deploy-flaskapp
   namespace: flaskapp
+
 spec:
-  replicas: 3
+  replicas: 2
+
   selector:
     matchLabels:
       app: flaskapp
-  strategy: {}
+
   template:
     metadata:
       labels:
         app: flaskapp
+
     spec:
       imagePullSecrets:
-      - name: dockersecret
+        - name: dockersecret
+
       containers:
-        # - image: srir27/flaskapp:v2
-        - image: srir27/sriprvt # Private docker repo
+        - image: srir27/flaskapp:v2
           name: flaskapp
-          resources: {}
-          envFrom: 
-          - configMapRef:
-              name: flaskapp-cm
-            
-status: {}
+
+          resources:
+            limits:
+              cpu: 20m
+            requests:
+              cpu: 10m
+
+          envFrom:
+            - configMapRef:
+                name: flaskapp-cm
+
+          volumeMounts:
+            - name: flask-storage
+              mountPath: /mnt/data
+
+      volumes:
+        - name: flask-storage
+          persistentVolumeClaim:
+            claimName: flaskapp-pvc
